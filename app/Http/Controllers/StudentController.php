@@ -33,7 +33,7 @@ class StudentController extends Controller
             $request->validate([
                 'name' => 'required|max:100',
                 'last_name' => 'required|max:100',
-                'age' => 'required|min:18',
+                'age' => 'required',
                 'card' => 'required|max:11',
                 'email' => 'required|unique:students',
             ]);
