@@ -29,14 +29,25 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        $course = new Course();
-        $course->name = $request->name;
-        $course->schedule = $request->schedule;
-        $course->date_ini = $request->date_ini;
-        $course->date_end = $request->date_end;
-        $course->type = $request->type;
+        try {
+            $request->validate([
+                'name' => 'required|max:100',
+                'date_ini' => 'required',
+                'date_end' => 'required',
+                'type' => 'required',
+            ]);
 
-        $course->save();
+            $course = new Course();
+            $course->name = $request->name;
+            $course->schedule = $request->schedule;
+            $course->date_ini = $request->date_ini;
+            $course->date_end = $request->date_end;
+            $course->type = $request->type;
+
+            $course->save();
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }        
     }
 
     /**
@@ -63,15 +74,26 @@ class CourseController extends Controller
     {
         $course_request = Course::findOrFail($course->id);
 
-        $course_request->name = $request->name;
-        $course_request->schedule = $request->schedule;
-        $course_request->date_ini = $request->date_ini;
-        $course_request->date_end = $request->date_end;
-        $course_request->type = $request->type;
+        try {
+            $request->validate([
+                'name' => 'required|max:100',
+                'date_ini' => 'required',
+                'date_end' => 'required',
+                'type' => 'required',
+            ]);
 
-        $course_request->save();
+            $course_request->name = $request->name;
+            $course_request->schedule = $request->schedule;
+            $course_request->date_ini = $request->date_ini;
+            $course_request->date_end = $request->date_end;
+            $course_request->type = $request->type;
 
-        return $course_request;
+            $course_request->save();
+
+            return $course_request;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }        
     }
 
     /**

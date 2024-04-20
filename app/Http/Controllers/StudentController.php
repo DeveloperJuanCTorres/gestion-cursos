@@ -29,15 +29,28 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        $student = new Student();
-        $student->name = $request->name;
-        $student->last_name = $request->last_name;
-        $student->age = $request->age;
-        $student->card = $request->card;
-        $student->email = $request->email;
-        $student->courses = $request->courses;
+        try {
+            $request->validate([
+                'name' => 'required|max:100',
+                'last_name' => 'required|max:100',
+                'age' => 'required|min:18',
+                'card' => 'required|max:11',
+                'email' => 'required|unique:students',
+            ]);
 
-        $student->save();
+            $student = new Student();
+            $student->name = $request->name;
+            $student->last_name = $request->last_name;
+            $student->age = $request->age;
+            $student->card = $request->card;
+            $student->email = $request->email;
+            $student->courses = $request->courses;
+
+            $student->save();
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+        
     }
 
     /**
@@ -63,17 +76,28 @@ class StudentController extends Controller
     public function update(Request $request, Student $student)
     {
         $student_request = Student::findOrFail($student->id);
+        try {
+            $request->validate([
+                'name' => 'required|max:100',
+                'last_name' => 'required|max:100',
+                'age' => 'required|min:18',
+                'card' => 'required|max:11',
+                'email' => 'required|unique:students',
+            ]);
 
-        $student_request->name = $request->name;
-        $student_request->last_name = $request->last_name;
-        $student_request->age = $request->age;
-        $student_request->card = $request->card;
-        $student_request->email = $request->email;
-        $student_request->courses = $request->courses;
+            $student_request->name = $request->name;
+            $student_request->last_name = $request->last_name;
+            $student_request->age = $request->age;
+            $student_request->card = $request->card;
+            $student_request->email = $request->email;
+            $student_request->courses = $request->courses;
 
-        $student_request->save();
+            $student_request->save();
 
-        return $student_request;
+            return $student_request;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }        
     }
 
     /**
@@ -84,4 +108,13 @@ class StudentController extends Controller
         $student_request = Student::destroy($student->id);
         return $student_request;
     }
+
+    /**
+     * Mostrar top 3 de los cursos con mas estudiantes en los ultimos 6 meses.
+     */
+    public function top3()
+    {
+        
+    }
+     
 }

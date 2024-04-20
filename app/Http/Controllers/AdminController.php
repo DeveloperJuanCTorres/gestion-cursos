@@ -29,13 +29,24 @@ class AdminController extends Controller
      */
     public function store(Request $request)
     {
-        $admin = new Admin();
-        $admin->name = $request->name;
-        $admin->last_name = $request->last_name;
-        $admin->email = $request->email;
-        $admin->password = $request->password;
+        try {
+            $request->validate([
+                'name' => 'required|max:100',
+                'last_name' => 'required|max:100',
+                'email' => 'required|max:100|unique:admins',
+            ]);
 
-        $admin->save();
+            $admin = new Admin();
+            $admin->name = $request->name;
+            $admin->last_name = $request->last_name;
+            $admin->email = $request->email;
+            $admin->password = $request->password;
+
+            $admin->save();
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+        
     }
 
     /**
@@ -61,15 +72,26 @@ class AdminController extends Controller
     public function update(Request $request, Admin $admin)
     {
         $admin_request = Admin::findOrFail($admin->id);
+        try {
+            $request->validate([
+                'name' => 'required|max:100',
+                'last_name' => 'required|max:100',
+                'email' => 'required|max:100|unique:admins',
+            ]);
+            
+            $admin_request->name = $request->name;
+            $admin_request->last_name = $request->last_name;
+            $admin_request->email = $request->email;
+            $admin_request->password = $request->password;
 
-        $admin_request->name = $request->name;
-        $admin_request->last_name = $request->last_name;
-        $admin_request->email = $request->email;
-        $admin_request->password = $request->password;
+            $admin_request->save();
 
-        $admin_request->save();
+            return $admin_request;
 
-        return $admin_request;
+        } catch (\Throwable $th) {
+            return $th->getMessage();
+        }
+        
     }
 
     /**
