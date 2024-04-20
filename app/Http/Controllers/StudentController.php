@@ -110,11 +110,12 @@ class StudentController extends Controller
     }
 
     /**
-     * Mostrar top 3 de los cursos con mas estudiantes en los ultimos 6 meses.
+     * Total de estudiantes.
      */
-    public function top3()
+    public function TotalStudents()
     {
-        
+        $total = Student::all()->count();
+        return $total;
     }
      
 }

@@ -104,4 +104,13 @@ class CourseController extends Controller
         $course_request = Course::destroy($course->id);
         return $course_request;
     }
+
+    /**
+     * Total de cursos.
+     */
+    public function TotalCourses()
+    {
+        $total = Course::all()->count();
+        return $total;
+    }
 }
