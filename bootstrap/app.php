@@ -24,6 +24,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'http://127.0.0.1:8000/course_student/update',
             'http://127.0.0.1:8000/course_student/search',
             'http://127.0.0.1:8000/course_student/delete',
+            'http://127.0.0.1:8000/course_student/delete',
+            'http://127.0.0.1:8000/dashboard',
+            'http://127.0.0.1:8000/report',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

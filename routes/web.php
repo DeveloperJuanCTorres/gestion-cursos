@@ -5,11 +5,17 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\CourseStudentController;
+use Illuminate\Http\Request;
 
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/token', function (Request $request) {
+    $token = $request->session()->token();
+    return response()->json(['csrf_token' => $token]);
+    // $token = csrf_token();
+    // ...
+});
 
 Route::get('/admins', [AdminController::class, 'index']);
 Route::post('/admins/store', [AdminController::class, 'store']);
@@ -35,3 +41,8 @@ Route::get('/course_student', [CourseStudentController::class, 'index']);
 Route::post('/course_student/store', [CourseStudentController::class, 'store']);
 Route::get('/course_student/search', [CourseStudentController::class, 'show']);
 Route::delete('/course_student/delete', [CourseStudentController::class, 'destroy']);
+
+Route::get('/dashboard', [CourseStudentController::class, 'getStatistics']);
+Route::get('/report', [CourseStudentController::class, 'getCoursesForStudent']);
+
+

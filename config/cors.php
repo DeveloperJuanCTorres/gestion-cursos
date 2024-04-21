@@ -23,7 +23,7 @@ return [
 
     'allowed_origins_patterns' => [env("FONTEND_URL","http://localhost:8000")],
 
-    'allowed_headers' => ['*localhost*'],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 

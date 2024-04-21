@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\CourseStudent;
+use App\Models\course;
+use App\Models\Student;
 use Illuminate\Http\Request;
 
 class CourseStudentController extends Controller
@@ -47,9 +49,9 @@ class CourseStudentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        $course_student = CourseStudent::findOrFail($id);
+        $course_student = CourseStudent::where('student_id', $request->id)->get();
         return $course_student;
     }
 
@@ -81,5 +83,41 @@ class CourseStudentController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['status' => true, 'msg' => $th->getMessage()]);
         }
+    }
+
+    public function getCoursesForStudent(Request $request)
+    {
+        $courses = CourseStudent::where('student_id', $request->id)
+            ->with('course')
+            ->get();
+
+        return response()->json($courses->pluck('course'));
+    }
+
+    public function getStatistics()
+    {
+        $topStudents = Student::select('students.id', 'students.name', 'students.last_name', \DB::raw('COUNT(course_students.course_id) as courses_count'))
+            ->join('course_students', 'students.id', '=', 'course_students.student_id')
+            ->groupBy('students.id', 'students.name', 'students.last_name')
+            ->orderByRaw('courses_count DESC')
+            ->take(3)
+            ->get();
+
+        $topCourses = CourseStudent::select('courses.id', 'courses.name', \DB::raw('COUNT(course_students.student_id) as students_count'))
+            ->join('courses', 'course_students.course_id', '=', 'courses.id')
+            ->groupBy('courses.id', 'courses.name')
+            ->orderByRaw('students_count DESC')
+            ->take(3)
+            ->get();
+
+        $totalCourses = Course::count();
+        $totalStudents = Student::count();
+
+        return response()->json([
+            'topStudents' => $topStudents,
+            'topCourses' => $topCourses,
+            'totalCourses' => $totalCourses,
+            'totalStudents' => $totalStudents,
+        ]);
     }
 }
