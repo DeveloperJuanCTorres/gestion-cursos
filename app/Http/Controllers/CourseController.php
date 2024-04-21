@@ -45,17 +45,19 @@ class CourseController extends Controller
             $course->type = $request->type;
 
             $course->save();
+           
+            return response()->json(['status' => true, 'msg' => "El Curso se registró correctamente"]);
         } catch (\Throwable $th) {
-            return $th->getMessage();
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
         }        
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Course $course)
+    public function show(Request $request)
     {
-        $course = Course::findOrFail($course->id);
+        $course = Course::findOrFail($request->id);
         return $course;
     }
 
@@ -70,9 +72,9 @@ class CourseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Course $course)
+    public function update(Request $request)
     {
-        $course_request = Course::findOrFail($course->id);
+        $course_request = Course::findOrFail($request->id);
 
         try {
             $request->validate([
@@ -90,19 +92,24 @@ class CourseController extends Controller
 
             $course_request->save();
 
-            return $course_request;
+            return response()->json(['status' => true, 'msg' => "El Curso se modificó correctamente"]);
         } catch (\Throwable $th) {
-            return $th->getMessage();
-        }        
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+        }         
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Course $course)
+    public function destroy(Request $request)
     {
-        $course_request = Course::destroy($course->id);
-        return $course_request;
+        try {
+            $id = $request->input('id');
+            $course_request = Course::destroy($id);
+            return response()->json(['status' => true, 'msg' => "El Curso se eliminó correctamente"]);
+        } catch (\Throwable $th) {
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+        }
     }
 
     /**

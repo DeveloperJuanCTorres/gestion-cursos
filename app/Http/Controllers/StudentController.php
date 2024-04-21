@@ -44,21 +44,20 @@ class StudentController extends Controller
             $student->age = $request->age;
             $student->card = $request->card;
             $student->email = $request->email;
-            $student->courses = $request->courses;
 
             $student->save();
+            return response()->json(['status' => true, 'msg' => "El Estudiante se registro correctamente"]);
         } catch (\Throwable $th) {
-            return $th->getMessage();
-        }
-        
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+        }      
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Student $student)
+    public function show(Request $request)
     {
-        $student_request = Student::findOrFail($student->id);
+        $student_request = Student::findOrFail($request->id);
         return $student_request;
     }
 
@@ -75,14 +74,15 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student)
     {
-        $student_request = Student::findOrFail($student->id);
+        $student_request = Student::findOrFail($request->id);
+
         try {
             $request->validate([
                 'name' => 'required|max:100',
                 'last_name' => 'required|max:100',
-                'age' => 'required|min:18',
+                'age' => 'required',
                 'card' => 'required|max:11',
-                'email' => 'required|unique:students',
+                'email' => 'required',
             ]);
 
             $student_request->name = $request->name;
@@ -90,14 +90,13 @@ class StudentController extends Controller
             $student_request->age = $request->age;
             $student_request->card = $request->card;
             $student_request->email = $request->email;
-            $student_request->courses = $request->courses;
 
             $student_request->save();
 
-            return $student_request;
+            return response()->json(['status' => true, 'msg' => "El Estudiante se modifió correctamente"]);
         } catch (\Throwable $th) {
-            return $th->getMessage();
-        }        
+            return response()->json(['status' => false, 'msg' => $th->getMessage()]);
+        }           
     }
 
     /**
