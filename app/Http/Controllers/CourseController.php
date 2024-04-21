@@ -111,13 +111,4 @@ class CourseController extends Controller
             return response()->json(['status' => false, 'msg' => $th->getMessage()]);
         }
     }
-
-    /**
-     * Total de cursos.
-     */
-    public function TotalCourses()
-    {
-        $total = Course::all()->count();
-        return $total;
-    }
 }

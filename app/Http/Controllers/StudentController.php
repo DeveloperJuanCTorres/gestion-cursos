@@ -106,15 +106,5 @@ class StudentController extends Controller
     {
         $student_request = Student::destroy($student->id);
         return $student_request;
-    }
-
-    /**
-     * Total de estudiantes.
-     */
-    public function TotalStudents()
-    {
-        $total = Student::all()->count();
-        return $total;
-    }
-     
+    }     
 }

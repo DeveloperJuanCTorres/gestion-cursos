@@ -26,3 +26,22 @@ Laravel es accesible, potente y proporciona las herramientas necesarias para apl
 "php artisan migrate --seed"
 para importar la base de datos con datos de prueba.
 
+## RUTAS
+
+- http://127.0.0.1:8000/courses  (listado de cursos) metodo GET
+- http://127.0.0.1:8000/courses/store  (Agregar curso) metodo POST
+- http://127.0.0.1:8000/courses/update  (Editar curso) metodo put
+- http://127.0.0.1:8000/courses/search  (Buscar curso) metodo GET
+- http://127.0.0.1:8000/courses/delete  (Eliminar curso) metodo DELETE
+
+- http://127.0.0.1:8000/students  (listado de estudiantes) metodo GET
+- http://127.0.0.1:8000/students/store  (Agregar estudiante) metodo POST
+- http://127.0.0.1:8000/students/update  (Editar estudiante) metodo put
+- http://127.0.0.1:8000/students/search  (Buscar estudiante) metodo GET
+- http://127.0.0.1:8000/students/delete  (Eliminar estudiante) metodo DELETE
+
+- http://127.0.0.1:8000/course_student  (listado de asignaciones) metodo GET
+- http://127.0.0.1:8000/course_student/store  (Agregar asignacion) metodo POST
+- http://127.0.0.1:8000/course_student/search  (Buscar asignacion) metodo GET
+- http://127.0.0.1:8000/course_student/delete  (Eliminar asignacion) metodo DELETE
+
