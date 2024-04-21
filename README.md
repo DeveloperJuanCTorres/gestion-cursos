@@ -12,17 +12,17 @@
 A continuacion indicaré pasos a seguir para correr el Backend satisfactoriamente
 
 - Debido a la actualizacion de Laravel 11 deben tener Node.js con una version igual o superor a 18.
-- composer con una version igual o superior a 2.2.
-- para importar las dependencias ejecutar el comnando:
+- Composer con una version igual o superior a 2.2.
+- Para importar las dependencias ejecutar el comnando:
 npm install
 
 Laravel es accesible, potente y proporciona las herramientas necesarias para aplicaciones grandes y sólidas.
 
 ## Importar la Base de Datos
 
-- debes crear una base de datos vacía.
-- en el archivo .env debes colocar el nombre de la base de datos que creaste con sus credenciales.
+- Debes crear una base de datos vacía.
+- En el archivo .env debes colocar el nombre de la base de datos que creaste con sus credenciales.
 - Una vez habiendo configurado el archivo .env con la base de datos ejecutar el comando:
-php artisan migrate --seed
+"php artisan migrate --seed"
 para importar la base de datos con datos de prueba.
 
